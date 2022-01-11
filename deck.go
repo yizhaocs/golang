@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
+	"os"
 	"strings"
 )
 
@@ -10,6 +12,7 @@ import (
 type deck []string
 
 func newDeck() deck {
+	fmt.Println("*************************** func newDeck() deck  ***************************")
 	cards := deck{}
 	// clubs (♣), diamonds (♦), hearts (♥) and spades (♠)
 	cardSuits := []string{"Spades", "Diamonds", "Hearts", "Clubs"}
@@ -37,11 +40,30 @@ func (d deck) print() {
 	}
 }
 
-func deal(d deck, handSize int) (deck, deck){
+func deal(d deck, handSize int) (deck, deck) {
+	fmt.Println("*************************** func deal(d deck, handSize int) (deck, deck) ***************************")
 	return d[:handSize], d[handSize:]
 }
 
-func (d deck) toString() string{
+func (d deck) toString() string {
 	fmt.Println("*************************** func (d deck) toString() string ***************************")
 	return strings.Join([]string(d), ",")
+}
+
+func (d deck) saveToFile(filename string) error {
+	fmt.Println("*************************** func (d deck) saveToFile(filename string) error ***************************")
+	// 0666 means anyone can read and write this file
+	return ioutil.WriteFile(filename, []byte(d.toString()), 0666)
+}
+
+func newDeckFromFile(filename string) deck {
+	fmt.Println("*************************** func newDeckFromFile(filename string) deck ***************************")
+	bs, err := ioutil.ReadFile(filename)
+	if err != nil {
+		fmt.Println("Error:", err)
+		os.Exit(1)
+	}
+
+	s := strings.Split(string(bs), ",")
+	return deck(s)
 }
