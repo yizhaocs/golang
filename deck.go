@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"os"
 	"strings"
 )
@@ -66,4 +67,16 @@ func newDeckFromFile(filename string) deck {
 
 	s := strings.Split(string(bytes), ",")
 	return deck(s)
+}
+
+func (d deck) shuffle() {
+	fmt.Println("*************************** func (d deck) shuffle() ***************************")
+	for index := range d {
+		newPosition := rand.Intn(len(d) - 1)
+		/*
+			So we're essentially saying take whatever is that new position and assign it to index
+			and then take whatever at index assign it to new position.
+		 */
+		d[index], d[newPosition] = d[newPosition], d[index] // fancy swap in golang
+	}
 }
