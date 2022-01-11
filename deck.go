@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"os"
 	"strings"
+	"time"
 )
 
 // Create a new type of 'deck'
@@ -69,14 +70,51 @@ func newDeckFromFile(filename string) deck {
 	return deck(s)
 }
 
+
 func (d deck) shuffle() {
 	fmt.Println("*************************** func (d deck) shuffle() ***************************")
+	/*
+		So we're using "seed := time.Now().UnixNano()" to generate a different 64 number.
+		因为"func (t Time) UnixNano() int64"的返回值是int64
+		Every single time we start up our program, we use that as the seed to generate a new source object,
+	*/
+	seed := time.Now().UnixNano()
+	/*
+		and then we use that source object as the basis for our new random number generator.
+	*/
+	rand.Seed(seed)
+
+
 	for index := range d {
 		newPosition := rand.Intn(len(d) - 1)
 		/*
 			So we're essentially saying take whatever is that new position and assign it to index
 			and then take whatever at index assign it to new position.
-		 */
+		*/
 		d[index], d[newPosition] = d[newPosition], d[index] // fancy swap in golang
 	}
 }
+//
+//func (d deck) shuffleUdemyTaught() {
+//	fmt.Println("*************************** func (d deck) shuffle() ***************************")
+//	/*
+//		So we're using "seed := time.Now().UnixNano()" to generate a different 64 number.
+//		因为"func (t Time) UnixNano() int64"的返回值是int64
+//		Every single time we start up our program, we use that as the seed to generate a new source object,
+//	 */
+//	seed := time.Now().UnixNano()
+//	/*
+//		and then we use that source object as the basis for our new random number generator.
+//	 */
+//	source := rand.NewSource(seed)
+//	randomNumberGenerator := rand.New(source)
+//
+//	for index := range d {
+//		newPosition := randomNumberGenerator.Intn(len(d) - 1)
+//		/*
+//			So we're essentially saying take whatever is that new position and assign it to index
+//			and then take whatever at index assign it to new position.
+//		 */
+//		d[index], d[newPosition] = d[newPosition], d[index] // fancy swap in golang
+//	}
+//}
