@@ -29,7 +29,7 @@ func newDeck() deck {
 	for _, suit := range cardSuits {
 		// for j, value := range cardValues {
 		for _, value := range cardValues {
-			cards = append(cards, suit+" of "+value)
+			cards = append(cards, value+" of "+suit)
 		}
 	}
 
@@ -70,7 +70,6 @@ func newDeckFromFile(filename string) deck {
 	return deck(s)
 }
 
-
 func (d deck) shuffle() {
 	fmt.Println("*************************** func (d deck) shuffle() ***************************")
 	/*
@@ -84,7 +83,6 @@ func (d deck) shuffle() {
 	*/
 	rand.Seed(seed)
 
-
 	for index := range d {
 		newPosition := rand.Intn(len(d) - 1)
 		/*
@@ -94,6 +92,7 @@ func (d deck) shuffle() {
 		d[index], d[newPosition] = d[newPosition], d[index] // fancy swap in golang
 	}
 }
+
 //
 //func (d deck) shuffleUdemyTaught() {
 //	fmt.Println("*************************** func (d deck) shuffle() ***************************")
